@@ -1,3 +1,5 @@
 pdfplumber
 sentence-transformers
 numpy
+
+transformers==4.46.3
