@@ -8,7 +8,7 @@ def load_pdf(file:str) -> list[dict]:
         with pdfplumber.open(file) as pdf:
             print(f"Loading pdf file:", {file})
 
-            for i, page in enumerate(pdf.pages[:20]):
+            for i, page in enumerate(pdf.pages[:30]):
                 page_text = page.extract_text()
                 if page_text:
                     pages.append({"page": i + 1, "text": page_text})
@@ -48,20 +48,20 @@ def chunk_stats(strings:list[str]):
 
 
 
-pages = load_pdf(file="../data/raw/openstax-prealgebra.pdf")
-print(pages[2]["text"])
+# pages = load_pdf(file="../data/raw/openstax-prealgebra.pdf")
+# print(pages[2]["text"])
 
-chunks_fixed = chunk_fixed(pages[2]["text"])
-print("Statistics for chunk_fixed")
-chunk_stats(chunks_fixed)
+# chunks_fixed = chunk_fixed(pages[2]["text"])
+# print("Statistics for chunk_fixed")
+# chunk_stats(chunks_fixed)
 
-chunks_sentences = chunk_sentences(pages[2]["text"])
-print("Statistics for chunks_sentences")
-chunk_stats(chunks_sentences)
+# chunks_sentences = chunk_sentences(pages[2]["text"])
+# print("Statistics for chunks_sentences")
+# chunk_stats(chunks_sentences)
 
-chunks_sliding = chunk_sliding(pages[2]["text"])
-print("Statistics for chunks_sliding")
-chunk_stats(chunks_sliding)
+# chunks_sliding = chunk_sliding(pages[2]["text"])
+# print("Statistics for chunks_sliding")
+# chunk_stats(chunks_sliding)
 
 # for chunk in chunks_fixed:
 #     print(chunk)
