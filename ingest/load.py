@@ -1,5 +1,7 @@
 import pdfplumber
 import re
+from qdrant_store import upsert
+from embed import get_model
 
 def load_pdf(file:str) -> list[dict]:
     pages = []
@@ -47,22 +49,13 @@ def chunk_stats(strings:list[str]):
     print()
 
 
-
-# pages = load_pdf(file="../data/raw/openstax-prealgebra.pdf")
-# print(pages[2]["text"])
-
-# chunks_fixed = chunk_fixed(pages[2]["text"])
-# print("Statistics for chunk_fixed")
-# chunk_stats(chunks_fixed)
-
-# chunks_sentences = chunk_sentences(pages[2]["text"])
-# print("Statistics for chunks_sentences")
-# chunk_stats(chunks_sentences)
-
-# chunks_sliding = chunk_sliding(pages[2]["text"])
-# print("Statistics for chunks_sliding")
-# chunk_stats(chunks_sliding)
-
-# for chunk in chunks_fixed:
-#     print(chunk)
-#     print()
+_file_name = "openstax-prealgebra.pdf"
+_file_path = f"data/raw/{_file_name}"
+_pages = load_pdf(file=_file_path)
+for i, _page in enumerate(_pages):
+    _chunks_sliding = chunk_sliding(_page["text"])    
+    _embeddings = get_model().encode(_chunks_sliding)
+    print(f"Page {i}: {len(_chunks_sliding)} chunks")
+    if len(_chunks_sliding) > 0:
+        upsert(chunks=_chunks_sliding, embeddings=_embeddings, source=_file_name, page=i) 
+    

@@ -1,25 +1,6 @@
-from sentence_transformers import SentenceTransformer
+from ingest.qdrant_store import retrieve
 
-_model = None
-_device = None
-
-
-def get_device():
-    global _device
-
-    if _device == None:
-        try:
-            import torch_directml
-            _device = torch_directml.device()
-            return _device
-        except ImportError:
-            pass
-    else:
-        _device = "cpu"
-
-    return _device
-
-
-_model = SentenceTransformer("all-MiniLM-L6-v2", device=get_device())
-
-print(_model.device)
+result = retrieve(query="Distance, Rate and Time ")
+print()
+print()
+print(result)
