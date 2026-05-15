@@ -1,0 +1,102 @@
+[
+    {
+        "question": "What is rounding?",
+        "expected_keywords": ["Whole numbers","rounding"],
+        "type": "definition"
+    },
+    {
+        "question": "How do you add whole numbers?",
+        "expected_keywords": ["add","whole numbers","Addition"],
+        "type": "reasoning"
+    },
+    {
+        "question": "What is Identity Property of Addition?",
+        "expected_keywords": ["Identity","Addition","sum"],
+        "type": "definition"
+    },
+    {
+        "question": "What is the notation for addition?",
+        "expected_keywords": ["notation","addition"],
+        "type": "definition"
+    },
+    {
+        "question": "What is the notation for Subtraction?",
+        "expected_keywords": ["notation","Subtraction", "subtract"],
+        "type": "definition"
+    },
+    {
+        "question": "How do you substract whole numbers?",
+        "expected_keywords": ["Model Subtraction","Whole Numbers"],
+        "type": "reasoning"
+    },
+    {
+        "question": "What is Multiplication Property of Zero?",
+        "expected_keywords": ["Multiplication","Zero"],
+        "type": "definition"
+    },
+    {
+        "question": "What is Commutative Property of Multiplication?",
+        "expected_keywords": ["Commutative Property","Multiplication","order"],
+        "type": "definition"
+    },
+    {
+        "question": "What is the relation between multiplication and division?",
+        "expected_keywords": ["multiplication","division"," Check by multiplying"],
+        "type": "reasoning"
+    },
+    {
+        "question": "What is place value system?",
+        "expected_keywords": ["place value","digit"],
+        "type": "definition"
+    },
+    {
+        "question": "How do you find the quotient?",
+        "expected_keywords": ["division","remainder"],
+        "type": "reasoning"
+    },
+    {
+        "question": "What is the relation between addition and Subtraction?",
+        "expected_keywords": ["addition","Subtraction","Check"],
+        "type": "reasoning"
+    },
+    {
+        "question": "What is the Equality Symbol",
+        "expected_keywords": ["Equality","Symbol"],
+        "type": "definition"
+    },
+    {
+        "question": "What does = represent?",
+        "expected_keywords": ["=","symbol","Equality"],
+        "type": "reasoning"
+    },
+    {
+        "question": "What is the symbol for inequality",
+        "expected_keywords": ["inequality","symbol"],
+        "type": "definition"
+    },
+    {
+        "question": "How do you Simplify Expressions with Exponents?",
+        "expected_keywords": ["Simplify","Expressions","Exponents"],
+        "type": "reasoning"
+    },
+    {
+        "question": "What is an exponent?",
+        "expected_keywords": ["exponent","base"],
+        "type": "definition"
+    },
+    {
+        "question": "Define Variables and Constants.",
+        "expected_keywords": ["Variables","Constants"],
+        "type": "definition"
+    },
+    {
+        "question": "What is the diference between a constant and a variable?",
+        "expected_keywords": ["constant","variable"],
+        "type": "reasoning"
+    },
+    {
+        "question": "What is the diference between an expression and an equation?",
+        "expected_keywords": ["expression", "equation"],
+        "type": "reasoning"
+    }
+]
