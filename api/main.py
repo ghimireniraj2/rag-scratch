@@ -2,9 +2,11 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from pathlib import Path
 import sys
+import json
 
 current_dir = Path(__file__).resolve().parent
 ingest_dir = current_dir.parent / "ingest"
@@ -53,14 +55,37 @@ app.add_middleware(
 async def health():
     return {"status": "ok"}
 
+async def stream_response(question: str, chunks:list):
+    response = complete(question=question, chunks=chunks, stream=True)
+    
+    # yield each chunk as SSE
+    for chunk in response:
+        delta = chunk.choices[0].delta.content
+        if delta:
+            yield f"data: {json.dumps({'delta': delta})}\n\n"
+    
+    # yield final event with sources
+    yield f"data: {json.dumps({'done': True, 'sources': chunks})}\n\n"
+
 @app.post("/ask")
 async def ask(request: QueryRequest):
     chunks = [result[0] for result in retrieve(collection="rag-sliding", query=request.question, k=request.k)]
     llm_result = complete(question=request.question, chunks=chunks)
     #print(llm_result)
-    return QueryResponse(question=request.question, answer=llm_result, chunks=chunks)
+    return QueryResponse(question=request.question, answer=llm_result.choices[0].message.content, chunks=chunks)
 
-
+@app.post("/ask-stream")
+def ask(request: QueryRequest):
+    chunks = [result[0] for result in retrieve(collection="rag-sliding", query=request.question, k=request.k)]
+    return StreamingResponse(
+        stream_response(request.question, chunks),
+        media_type="text/event-stream"
+    )
 
 ### Run as 
 # uvicorn api.main:app --reload
+
+### Test
+# curl -X POST http://localhost:8000/ask -H "Content-Type: application/json" -d "{\"question\": \"What is rounding?\", \"k\": 5}"
+# Stream
+# curl -X POST http://localhost:8000/ask-stream -H "Content-Type: application/json" -d "{\"question\": \"What is rounding?\", \"k\": 5}"  --no-buffer
