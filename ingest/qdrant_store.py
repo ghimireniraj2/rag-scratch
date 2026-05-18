@@ -27,7 +27,7 @@ def upsert(collection: str, chunks: list[str], embeddings, source: str, page: in
     ],
 )
     
-def retrieve(collection: str, query: str, k: int = 5) -> list [dict]:
+def retrieve(collection: str, query: str, k: int = 5) -> list[dict]:
     query_embedding = get_model().encode([query])[0]
     search_result = get_client().query_points(
         collection_name=collection,
@@ -36,5 +36,12 @@ def retrieve(collection: str, query: str, k: int = 5) -> list [dict]:
         limit=k
     )
     #print(search_result)
-    return [ [point.payload["text"], point.score] for point in search_result.points]
+    return [[
+            {
+                "text": point.payload["text"], 
+                "score": point.score,
+                "page": point.payload["page_number"],
+                "source": point.payload["file_name"]
+            }
+        ] for point in search_result.points]
 

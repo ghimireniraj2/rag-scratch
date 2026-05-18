@@ -1,3 +1,9 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+python-dotenv
+
 pdfplumber
 sentence-transformers
 numpy
@@ -5,3 +11,5 @@ numpy
 transformers==4.46.3
 torch==2.5.1
 qdrant-client
+
+groq

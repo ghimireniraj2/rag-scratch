@@ -7,7 +7,7 @@
 # Strategy        | recall@3 | recall@5
 # ----------------|----------|----------
 # chunk_fixed     | 19/20    | 19/20
-# chunk_sentences | /20    | /20
+# chunk_sentences | 19/20    | 19/20
 # chunk_sliding   | 19/20    | 19/20
 
 
@@ -23,7 +23,7 @@ from qdrant_store import retrieve
 
 def contains_expected_keywords(keywords: list[str], points: list[dict]) -> bool:
     any_exist = any(
-        any(kw.lower() in p[0].lower() for kw in keywords) for p in points
+        any(kw.lower() in p[0]["text"].lower() for kw in keywords) for p in points
     )
     return any_exist
 
@@ -34,11 +34,10 @@ with open("eval/questions.json", 'r') as json_file:
     failed = 0
     for question in questions:
         # print("---------- Question ------------")
-        #print(question["question"])
+        # print(question["question"])
         # print(question["expected_keywords"])
         # print(question["type"])
         # print("---------- Result ------------")
-
 
         #result = retrieve(collection="rag-sliding", query=question["question"], k=5)
         #result = retrieve(collection="rag-fixed", query=question["question"], k=5)
