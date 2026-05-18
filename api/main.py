@@ -17,6 +17,7 @@ sys.path.append(str(llm_dir))
 from model import get_device
 from qdrant_store import retrieve
 from llm import complete
+from api.prompt import get_chunk_fitting_budget
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -70,15 +71,17 @@ async def stream_response(question: str, chunks:list):
 @app.post("/ask")
 async def ask(request: QueryRequest):
     chunks = [result[0] for result in retrieve(collection="rag-sliding", query=request.question, k=request.k)]
-    llm_result = complete(question=request.question, chunks=chunks)
+    chunks_fitting_budget = get_chunk_fitting_budget(question=request.question, chunks=chunks, context_limit=3000)
+    llm_result = complete(question=request.question, chunks=chunks_fitting_budget)
     #print(llm_result)
-    return QueryResponse(question=request.question, answer=llm_result.choices[0].message.content, chunks=chunks)
+    return QueryResponse(question=request.question, answer=llm_result.choices[0].message.content, chunks=chunks_fitting_budget)
 
 @app.post("/ask-stream")
 def ask(request: QueryRequest):
     chunks = [result[0] for result in retrieve(collection="rag-sliding", query=request.question, k=request.k)]
+    chunks_fitting_budget = get_chunk_fitting_budget(question=request.question, chunks=chunks, context_limit=3000)
     return StreamingResponse(
-        stream_response(request.question, chunks),
+        stream_response(request.question, chunks_fitting_budget),
         media_type="text/event-stream"
     )
 

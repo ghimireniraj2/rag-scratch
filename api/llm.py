@@ -14,7 +14,7 @@ def get_client() -> Groq:
 
 def complete(question: str, chunks: list[dict], stream: bool = False):
     return get_client().chat.completions.create(
-        messages=generate_prompt(question=question, chunks=[c["text"] for c in chunks]),
+        messages=generate_prompt(question=question, chunks=chunks),
         model=settings.groq_model,
         stream=stream
     )
